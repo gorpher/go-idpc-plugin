@@ -98,7 +98,7 @@ var (
 
 func (m MemcachedPlugin) Meta() plugin.Meta {
 	if m.Key == "" {
-		m.Key = "redis"
+		m.Key = "memcached"
 	}
 	version, _ := plugin.ParseVersion(Version)
 	return plugin.Meta{
