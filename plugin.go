@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"io"
 	"math"
@@ -369,12 +370,12 @@ func (h *IdpcPlugin) formatValues(prefix string, metric Metrics, metricValues Pl
 				value, err = h.calcDiff(toFloat64(value), metricValues.Timestamp, toFloat64(lastMetricValues.Values[name]), lastMetricValues.Timestamp)
 			}
 			if err != nil {
-				log.Print("OutputValues: ", err)
+				log.Debug().Msgf("OutputValues: ", err)
 				return
 			}
 			metricValues.Values[".last_diff."+name] = value
 		} else {
-			log.Printf("%s does not exist at last fetch\n", name)
+			log.Debug().Msgf("%s does not exist at last fetch\n", name)
 			return
 		}
 	}
@@ -421,6 +422,11 @@ var PLUGIN_META_ENV_VAR = strings.ReplaceAll(strings.ToUpper(PLUGIN_PREFIX), "-"
 
 // Run the plugin
 func (h *IdpcPlugin) Run() {
+	if os.Getenv(PLUGIN_PREFIX+"DEBUG") != "" {
+		log.Logger = log.Logger.Level(zerolog.DebugLevel)
+	} else {
+		log.Logger = log.Logger.Level(zerolog.ErrorLevel)
+	}
 	if os.Getenv(PLUGIN_META_ENV_VAR) != "" {
 		h.OutputMeta()
 	} else {
