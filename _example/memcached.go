@@ -90,7 +90,7 @@ type MemcachedPlugin struct {
 
 var (
 	Revision  = "untracked"
-	Version   = "1.0.0"
+	Version   = "v1.0.0"
 	GOARCH    = runtime.GOARCH
 	GOOS      = runtime.GOOS
 	GOVersion = runtime.Version()

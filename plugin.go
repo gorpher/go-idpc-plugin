@@ -92,6 +92,9 @@ func ParseVersion(s string) (Version, error) {
 	for i, v := range []*uint32{&ver.Major, &ver.Minor, &ver.Patch} {
 		var n64 uint64
 		var err error
+		if i == 0 && strings.HasPrefix(versionSplit[i], "v") {
+			versionSplit[i] = versionSplit[i][1:]
+		}
 		n64, err = strconv.ParseUint(versionSplit[i], 10, 32)
 		if err != nil {
 			return Version{}, err
@@ -370,7 +373,7 @@ func (h *IdpcPlugin) formatValues(prefix string, metric Metrics, metricValues Pl
 				value, err = h.calcDiff(toFloat64(value), metricValues.Timestamp, toFloat64(lastMetricValues.Values[name]), lastMetricValues.Timestamp)
 			}
 			if err != nil {
-				log.Debug().Msgf("OutputValues: ", err)
+				log.Error().Err(err).Msg("OutputValues: ")
 				return
 			}
 			metricValues.Values[".last_diff."+name] = value

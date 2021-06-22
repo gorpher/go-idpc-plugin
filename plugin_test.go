@@ -81,7 +81,7 @@ func TestRunCommandArgs(t *testing.T) {
 }
 
 func TestParseVersion(t *testing.T) {
-	version, err := ParseVersion("1212.34.1212")
+	version, err := ParseVersion("v1212.34.1212")
 	if err != nil {
 		t.Error(err)
 		return
