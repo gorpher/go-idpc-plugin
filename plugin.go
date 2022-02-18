@@ -559,7 +559,9 @@ func (h *IdpcPlugin) OutputMetadataValues() {
 			log.Fatal().Err(err).Send()
 			return
 		}
-		metadata["_lastTime"] = preMetadata.Values["_lastTime"]
+		if metadata != nil {
+			metadata["_lastTime"] = preMetadata.Values["_lastTime"]
+		}
 		if !reflect.DeepEqual(preMetadata.Values, metadata) {
 			h.SaveValues(PluginValues{
 				Values:    metadata,
