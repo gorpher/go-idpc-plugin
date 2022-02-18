@@ -1,4 +1,4 @@
-module github.com/gorpher/go-idpc-plugin
+module github.com/gorpher/go-miao-plugin
 
 go 1.16
 
